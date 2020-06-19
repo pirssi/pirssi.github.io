@@ -57,13 +57,15 @@
 
 
             var i;
-
+            //SIZE
             for (i = sizeMin; i <= sizeMax; i += 0.5) {
                 sizeArray.push(i);
             }
-            for (i = gapMin; i <= gapMax; i += 0.5) {
+            //GAP
+            for (i = gapMin; i <= gapMax; i++) {
                 gapArray.push(i);
             }
+            //THICKNESS
             for (i = thicknessMin; i <= thicknessMax; i += 0.5) {
                 thicknessArray.push(i);
             }
@@ -149,7 +151,7 @@
             </h1>
         </div>
         <div style=" font-family: monospace; color: white; text-decoration: none; line-height: 300%;">
-            <form action="#" onsubmit="generate()">
+            <form action="javascript:void(0);" onsubmit="generate()">
                 size: min <input type=" text" id="sizeMin" size=1 value=1 required> max <input type="text" id="sizeMax"
                     size=1 value=5 required><br>
 
