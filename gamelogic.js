@@ -1,13 +1,3 @@
-function init() {
-  // mouse event handling
-  canvas.addEventListener("mousedown", pointerDown, false);
-  canvas.addEventListener("mousemove", pointerMove, false);
-  canvas.addEventListener("mouseup", pointerUp, false);
-
-  drawScene(); // niko
-  animate();
-}
-
 function animate() {
   if (horizontalVel == 0 && verticalVel == 0 && !inHole && ballHit == true) {
     ballHit = false;
@@ -18,14 +8,18 @@ function animate() {
       stageChanged = false;
     }
   }
-  wallCollision();
-  blockCollision();
-  poolsCollision();
-  sandPitCollision();
-  ballHoleGravity();
-  boundsCollision();
-  holeCollision();
   window.requestAnimationFrame(animate);
+  if (stagesIndex < 10) {
+    wallCollision();
+    blockCollision();
+    poolsCollision();
+    sandPitCollision();
+    ballHoleGravity();
+    boundsCollision();
+    holeCollision();
+  } else {
+    drawVictory();
+  }
 }
 
 // on pointer down
@@ -114,49 +108,46 @@ function redraw() {
 
 // after pointer release
 function pointerUp(e) {
-  redraw();
+  if (stagesIndex < 10) {
+    redraw();
 
-  if (!allowClick) {
-    return;
+    if (!allowClick) {
+      return;
+    }
+
+    // get the coordinates on mouseUp
+    mouseUpPosX = e.offsetX;
+    mouseUpPosY = e.offsetY;
+
+    // if ball isnt moving or in hole (allowClick is true) ball gets shot
+    if (velPercent <= 10) {
+      puttAudio.cloneNode(true).play();
+    } else {
+      hitAudio.cloneNode(true).play();
+    }
+    ballHit = true;
+
+    // ball direction is according to mouseUpPositions and pallo centerposition
+    dirX = mouseUpPosX - pallo.xPos;
+    dirY = mouseUpPosY - pallo.yPos;
+
+    // use directions and additional multiplier to set dir and vel
+    horizontalVel = dirX * velFactor;
+    verticalVel = dirY * velFactor;
+
+    if (horizontalVel > 35) {
+      var decreaseFactor = 35 / horizontalVel;
+      horizontalVel = 35;
+      verticalVel *= decreaseFactor;
+    } else if (verticalVel > 35) {
+      var decreaseFactor = 35 / verticalVel;
+      verticalVel = 35;
+      horizontalVel *= decreaseFactor;
+    }
+
+    //animation
+    interval = setInterval(animateBalls, 10);
   }
-
-  // get the coordinates on mouseUp
-  mouseUpPosX = e.offsetX;
-  mouseUpPosY = e.offsetY;
-
-  // if ball isnt moving or in hole (allowClick is true) ball gets shot
-  if (velPercent <= 10) {
-    puttAudio.cloneNode(true).play();
-  } else {
-    hitAudio.cloneNode(true).play();
-  }
-  ballHit = true;
-
-  // ball direction is according to mouseUpPositions and pallo centerposition
-  dirX = mouseUpPosX - pallo.xPos;
-  dirY = mouseUpPosY - pallo.yPos;
-
-  // use directions and additional multiplier to set dir and vel
-  horizontalVel = dirX * velFactor;
-  verticalVel = dirY * velFactor;
-
-  if (horizontalVel > 35) {
-    var decreaseFactor = 35 / horizontalVel;
-    horizontalVel = 35;
-    verticalVel *= decreaseFactor;
-    //console.log(decreaseFactor);
-  } else if (verticalVel > 35) {
-    var decreaseFactor = 35 / verticalVel;
-    verticalVel = 35;
-    horizontalVel *= decreaseFactor;
-    //console.log(decreaseFactor);
-  }
-
-  //console.log(velPercent);
-  //console.log(Math.max(verticalVel, horizontalVel));
-
-  //animation
-  interval = setInterval(animateBalls, 10);
 }
 
 // moving ball
@@ -189,7 +180,6 @@ function animateBalls() {
 
     hitPosX = pallo.xPos;
     hitPosY = pallo.yPos;
-    //console.log("Hitpositions set. X : ", hitPosX, "|| Y : ", hitPosY);
   }
 
   // check is moving
@@ -201,18 +191,9 @@ function animateBalls() {
   ) {
     clearInterval(interval);
     ballMoving = false;
-
-    //console.log("interval cleared");
   } else {
     ballMoving = true;
   }
-
-  // if balls are touching change ball color to red
-  //   if (ballsAreTouching) {
-  //     pallo.ballColor = "red";
-  //   } else {
-  //     pallo.ballColor = "white";
-  //   }
 
   pallo.moveBall(animBallX, animBallY);
   drawScene(); // niko
@@ -230,7 +211,7 @@ function ballHoleGravity() {
   var ballHoleRadDist =
     (pallo.ballRad + reika.reikaRad) * (pallo.ballRad + reika.reikaRad);
 
-  ////console.log(ballHoleRadDist);
+  ////
   if (sqrDistance < ballHoleRadDist) {
     ballsAreTouching = true;
 
@@ -262,7 +243,6 @@ function nextStage() {
   //inHole = true;
 
   stagesIndex++;
-  console.log("stagesIndex: " + stagesIndex);
 
   stageChanged = true;
   horizontalVel = 0;

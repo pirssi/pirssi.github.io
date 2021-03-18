@@ -17,7 +17,7 @@ var horizontalVel;
 var verticalVel;
 var ballYPos = 500;
 var ballXPos = 500;
-var ballFriction = 0.987;
+var ballFriction = 0.975;
 var ballMoving = false;
 var ballHit = false;
 var allowClick = true;
@@ -91,27 +91,30 @@ var canvas;
 function main() {
   canvas = document.getElementById("myCanvas");
   ctx = canvas.getContext("2d");
+  canvas.width = SIZE;
+  canvas.height = SIZE;
 
-  draw();
-  init();
-  //boundsCollision();
-  //holeCollision();
-  //drawObstacles();
+  // mouse event handling
+  canvas.addEventListener("mousedown", pointerDown, false);
+  canvas.addEventListener("mousemove", pointerMove, false);
+  canvas.addEventListener("mouseup", pointerUp, false);
+
+  setStage();
+
+  drawScene();
+  animate();
 
   document.addEventListener("keyup", (e) => {
     if (e.code === "KeyR") {
-      console.log("r painettu 😎");
       verticalVel = 0;
       horizontalVel = 0;
       setStage();
       redraw();
     }
-
-    // do something
   });
 }
 
 function hideTutorial() {
   let element = document.getElementById("overlay");
-  element.style.display="none";
+  element.style.display = "none";
 }
