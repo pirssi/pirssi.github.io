@@ -110,3 +110,8 @@ function main() {
     // do something
   });
 }
+
+function hideTutorial() {
+  let element = document.getElementById("overlay");
+  element.style.display="none";
+}
