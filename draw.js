@@ -96,23 +96,24 @@ function drawScore() {
 //draw forceMeter
 function drawForceMeter(velFactorPercent) {
   ctx.beginPath();
-  ctx.lineWidth = 0.2;
-  ctx.fillStyle = "black";
+  ctx.lineWidth = 2;
+
+  ctx.strokeStyle = "black";
   ctx.moveTo(10, 10);
   ctx.lineTo(10, 130);
   ctx.lineTo(30, 130);
   ctx.lineTo(30, 10);
   ctx.lineTo(10, 10);
-  ctx.fill();
+  ctx.stroke();
 
-  ctx.beginPath();
-  ctx.fillStyle = "green";
-  ctx.moveTo(11, 11);
-  ctx.lineTo(11, 129);
-  ctx.lineTo(29, 129);
-  ctx.lineTo(29, 11);
-  ctx.lineTo(9, 11);
-  ctx.fill();
+  // ctx.beginPath();
+  // ctx.fillStyle = "rgba(0,0,0,0)";
+  // ctx.moveTo(11, 11);
+  // ctx.lineTo(11, 129);
+  // ctx.lineTo(29, 129);
+  // ctx.lineTo(29, 11);
+  // ctx.lineTo(9, 11);
+  // ctx.fill();
 }
 
 // creates UI for current hit force in the left upper corner
@@ -122,13 +123,13 @@ function drawHitForceUI() {
     ctx.font = "20px Georgia";
     ctx.fillStyle = "White";
     ctx.fillText(
-      "Force: " + Math.round(velPercent) + "%",
-      canvas.width * 0.035,
-      canvas.height * 0.126
+      Math.round(velPercent) + "%",
+      canvas.width * 0.008,
+      canvas.height * 0.155
     );
 
     ctx.beginPath();
-    ctx.fillStyle = "lightYellow";
+    ctx.fillStyle = "white";
     ctx.moveTo(11, 129);
     ctx.lineTo(29, 129);
     ctx.lineTo(29, 109);
@@ -139,13 +140,13 @@ function drawHitForceUI() {
     ctx.font = "20px Georgia";
     ctx.fillStyle = "White";
     ctx.fillText(
-      "Force: " + Math.round(velPercent) + "%",
-      canvas.width * 0.035,
-      canvas.height * 0.126
+      Math.round(velPercent) + "%",
+      canvas.width * 0.008,
+      canvas.height * 0.155
     );
 
     ctx.beginPath();
-    ctx.fillStyle = "lightYellow";
+    ctx.fillStyle = "white";
     ctx.moveTo(11, 129);
     ctx.lineTo(29, 129);
     ctx.lineTo(29, 109);
@@ -153,8 +154,14 @@ function drawHitForceUI() {
     ctx.lineTo(11, 129);
     ctx.fill();
 
+    var gradient = ctx.createLinearGradient(0, 0, 0, canvas.height * 0.12);
+    gradient.addColorStop("0", "red");
+    gradient.addColorStop("0.7", "yellow");
+    gradient.addColorStop("1", "green");
+    ctx.fillStyle = gradient;
+
     ctx.beginPath();
-    ctx.fillStyle = "red";
+    ctx.fillStyle = gradient;
     ctx.moveTo(11, 109);
     ctx.lineTo(29, 109);
     ctx.lineTo(29, 111 - velPercent);
@@ -197,7 +204,7 @@ function drawVictory() {
   ctx.arc(
     (canvas.width / GRIDWIDTH) * 3,
     (canvas.height / GRIDHEIGHT) * 3,
-    canvas.height * 0.5,
+    canvas.height * 0.45,
     0,
     Math.PI * 2
   );
@@ -237,7 +244,7 @@ function drawVictory() {
     (canvas.height / GRIDHEIGHT) * 2
   );
   ctx.stroke();
-  //left side of base
+  //left side of handle
   ctx.moveTo(
     (canvas.width / GRIDWIDTH) * 2.8,
     (canvas.height / GRIDHEIGHT) * 4
@@ -249,7 +256,7 @@ function drawVictory() {
     (canvas.height / GRIDHEIGHT) * 5
   );
   ctx.stroke();
-  //right side of base
+  //right side of handle
   ctx.moveTo(
     (canvas.width / GRIDWIDTH) * 3.2,
     (canvas.height / GRIDHEIGHT) * 4
@@ -323,6 +330,7 @@ function drawVictory() {
     (canvas.height / GRIDHEIGHT) * 2.15
   );
   ctx.stroke();
+  //base
   ctx.fillStyle = "saddlebrown";
   ctx.fillRect(
     (canvas.width / GRIDWIDTH) * 2.2,
@@ -338,6 +346,22 @@ function drawVictory() {
     (canvas.height / GRIDHEIGHT) * 0.1
   );
   ctx.stroke();
+  //score placate
+  ctx.fillStyle = "yellow";
+  ctx.fillRect(
+    (canvas.width / GRIDWIDTH) * 2.3,
+    (canvas.height / GRIDHEIGHT) * 5.1,
+    (canvas.width / GRIDWIDTH) * 1.4,
+    (canvas.height / GRIDHEIGHT) * 0.3
+  );
+  ctx.stroke();
+  ctx.font = "22px Verdana";
+  ctx.fillStyle = "black";
+  ctx.fillText(
+    "Total Strokes: " + totalStrokes,
+    (canvas.width / GRIDWIDTH) * 2.35,
+    (canvas.height / GRIDHEIGHT) * 5.3
+  );
 
   ctx.font = "102px Verdana";
   // Create gradient
@@ -352,9 +376,25 @@ function drawVictory() {
   gradient.addColorStop("1.0", "darkorange");
   // Fill with gradient
   ctx.fillStyle = gradient;
+  ctx.strokeText(
+    "YOU'RE WINNER !",
+    (canvas.width / GRIDWIDTH) * 0.4,
+    (canvas.height / GRIDHEIGHT) * 1
+  );
   ctx.fillText(
     "YOU'RE WINNER !",
     (canvas.width / GRIDWIDTH) * 0.4,
     (canvas.height / GRIDHEIGHT) * 1
   );
+  ctx.font = "154px Verdana";
+  ctx.lineWidth = 5;
+  ctx.strokeText(
+    "1",
+    (canvas.width / GRIDWIDTH) * 2.7,
+    (canvas.height / GRIDHEIGHT) * 3
+  );
+  if (victoryAudioPlayed == false) {
+    victoryAudio.play();
+    victoryAudioPlayed = true;
+  }
 }

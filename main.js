@@ -10,6 +10,9 @@ var waterAudio = new Audio("audio/splash.mp3");
 waterAudio.volume = 0.3; //doesnt change the volume for some reason
 var bounceAudio = new Audio("audio/bounce.mp3");
 var cheerAudio = new Audio("audio/cheer.mp3");
+var victoryAudio = new Audio("audio/victory_song.wav");
+victoryAudio.volume = 0.2;
+victoryAudioPlayed = false;
 var cooldownTime = 1;
 var stageSet = false;
 
@@ -36,6 +39,7 @@ var lastStage = 0;
 var stageChanged = false;
 var strokes = 1;
 var score = 0;
+var totalStrokes = 0;
 
 var interval;
 var ballsAreTouching = false;
@@ -94,6 +98,8 @@ function main() {
   canvas.width = SIZE;
   canvas.height = SIZE;
 
+  ctx.filter = "blur(20px)";
+
   // mouse event handling
   canvas.addEventListener("mousedown", pointerDown, false);
   canvas.addEventListener("mousemove", pointerMove, false);
@@ -115,6 +121,8 @@ function main() {
 }
 
 function hideTutorial() {
+  ctx.filter = "none";
+  redraw();
   let element = document.getElementById("overlay");
   element.style.display = "none";
 }
