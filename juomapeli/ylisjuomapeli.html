@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>Ylilauta-juomapeli</title>
+
+</head>
+<style>
+    body,
+    .modal-body,
+    .modal-header,
+    .modal-footer {
+        background-color: #F3E6DE;
+    }
+
+    .modal-header {
+        border: #F3E6DE;
+        padding: 9px 15px;
+        -webkit-border-top-left-radius: 5px;
+        -webkit-border-top-right-radius: 5px;
+        -moz-border-radius-topleft: 5px;
+        -moz-border-radius-topright: 5px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    .modal-footer {
+        border: #F3E6DE;
+        padding: 9px 15px;
+        -webkit-border-bottom-left-radius: 5px;
+        -webkit-border-bottom-right-radius: 5px;
+        -moz-border-radius-bottomleft: 5px;
+        -moz-border-radius-bottomright: 5px;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+
+    .navbar-toggler,
+    .navbar-toggler:focus,
+    .navbar-toggler:active,
+    .navbar-toggler-icon {
+        outline: none;
+        box-shadow: none;
+        border: none;
+    }
+
+    .btn-primary {
+        background-color: #F6D2B9;
+        color: #880000;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #F3C5A5;
+        color: #880000;
+        border: none;
+    }
+
+    .btn-primary:active,
+    .btn-primary:focus,
+    .btn-primary:active:focus:not(:disabled):not(.disabled) {
+        background-color: #DB9F8C;
+        outline: none;
+        box-shadow: none;
+        color: #880000;
+        border: none;
+    }
+
+    .navbar {
+        background-color: #FDD6B1
+    }
+</style>
+<script>
+
+    var saannotPage = ohjeetPage = 0, //current page of rules / guide
+        currentCard = -2, //card number/index counter
+        cardCount = 203, //manual count of cards available (in /kortit)
+        playedCards = [], //array with all the played cards
+        warned = false,
+        deck = shuffleCards(cardCount); //deck of cards, with shuffled order
+
+    function nextCard() { //gets and shows the next card
+        var kortti = document.getElementById('kortti'); //element (img) in which the card is shown
+        next = deck[currentCard + 1]; //next card = current card + 1
+        if (next >= 0 && next < deck.length) { //if the next card is in the deck
+            if (deck[next] >= 192 && deck[next] <= 202 && warned == false) { //if the card == salainen
+                kortti.src = "extra/salainen.png"; //show a warning
+                warned = true;
+            } else {
+                kortti.src = 'kortit/' + deck[next] + '.jpg'; //the next card is shown
+                playedCards.push(deck[currentCard]); //card added to played cards
+                document.getElementById('counter').style = "visibility: visible"; //the counter is visible
+                document.getElementById('counter').innerHTML = (playedCards.length + '/' + deck.length); //update the counter
+                currentCard++; //current card number updated (increased)
+                warned = false;
+                console.log(currentCard);
+            }
+
+        } else if (currentCard == -2) { //if the current card is the "starting card" (-2)
+            kortti.src = "extra/ohjeet_0.png"; //show a blank card before showing cards from the deck
+            // document.getElementById('counter').style = "visibility: hidden";
+            currentCard++; //current card number updated (increased)
+            console.log(currentCard);
+        } else if (currentCard > deck.length) {
+            kortti.src = "extra/tausta_light.png"; //show a blank card before showing cards from the deck
+            document.getElementById('counter').style = "visibility: hidden";
+        }
+    }
+    function previousCard() { //gets and shows the previous card
+        var kortti = document.getElementById('kortti'); //element (img) in which the card is shown
+        previous = deck[currentCard - 1]; //previous card = current card - 1
+        if (previous >= 0 && previous < deck.length) { //if the previous card is in the deck
+            kortti.src = 'kortit/' + deck[previous] + '.jpg'; //show the previous card
+            playedCards.pop(); //remove the last played card from played cards
+            //console.log(playedCards.length + '/' + deck.length);
+            // document.getElementById('counter').style = "visibility: visible";
+            document.getElementById('counter').innerHTML = (playedCards.length + '/' + deck.length); // update the counter
+            currentCard--; //current card number updated (decreased)
+            console.log(currentCard);
+        } else if (currentCard == 0 || currentCard == -1) { //if the previous card is "no card"
+            kortti.src = "extra/tausta_light.png"; //show a blank card
+            playedCards.pop() //remove the last played card from played cards
+            document.getElementById('counter').style = "visibility: hidden"; //hide the counter
+            currentCard = -1; //current card number set to -1 so the rules are not shown again
+            console.log(currentCard);
+        }
+
+    }
+    function nextSaanto() {
+        var saanto = document.getElementById('saannotImg');
+        if (saannotPage == 0) {
+            saannotPage = 1;
+            saanto.src = 'extra/säännöt_2.png';
+        }
+        else if (saannotPage == 1) {
+            saannotPage = 0;
+            saanto.src = 'extra/säännöt_1.png';
+        }
+    }
+    function nextOhje() {
+        var ohje = document.getElementById('ohjeetImg');
+        if (ohjeetPage == 0) {
+            ohjeetPage = 1;
+            ohje.src = 'extra/ohjeet_2.png';
+        }
+        else if (ohjeetPage == 1) {
+            ohjeetPage = 0;
+            ohje.src = 'extra/ohjeet_1.png';
+        }
+    }
+    function shuffleCards(count) {
+        let numberRange = [];
+        for (let i = 0; i < count; i++) {
+            numberRange.push(i);
+        }
+
+        function shuffle(array) {
+            var i = array.length,
+                j = 0,
+                temp;
+
+            while (i--) {
+                j = Math.floor(Math.random() * (i + 1));
+                // swap randomly chosen element with current element
+                temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+            return array;
+        }
+        let cards = shuffle(numberRange);
+
+        return cards;
+    }
+
+
+    document.onkeydown = function (e) {
+        e = e || window.event;
+        console.log(e.keyCode);
+        if (e.keyCode == 39) {
+            nextCard();
+        }
+        if (e.keyCode == 37) {
+            previousCard();
+        }
+    }
+
+
+</script>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light">
+
+        <a class="navbar-brand" href="#">
+            <img src="seal_of_ylilauta-icon.svg" width="32" height="32" alt="">
+        </a>
+        Ylilauta-juomapeli
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+
+        </form>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
+                <li>
+                    <a class="nav-link" data-toggle="modal" href="#saannotModal">Säännöt</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" href="#ohjeetModal">Ohjeet</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" href="#drinkkiModal">Drinkkiopas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="modal" href="#aboutModal">About</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-center text-center" style="height: 100vh;">
+            <div class="p-2 bd-highlight col-example">
+                <p id="counter" style="visibility: hidden;">counter</p>
+                <img id="kortti" src="extra/tausta_light.png" style="width: 498px; max-width: 90vw;"
+                    onclick="nextCard();" alt="Kortti"><br><br>
+                <button type="button" class="btn btn-primary" onclick="previousCard()">Edellinen</button>
+                <button type="button" class="btn btn-primary" onclick="nextCard()">Seuraava</button>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Säännöt -->
+    <div class="modal fade" id="saannotModal" tabindex="-1" role="dialog" aria-labelledby="saannotModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="saannotModalLabel">Säännöt</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <img id="saannotImg" src="extra/säännöt_1.png"
+                        style="width: auto; max-width: 100%; max-height: 70vh;" onclick='nextSaanto()' alt="Säännöt">
+                    </img>
+
+                </div>
+                <div class="modal-footer"></div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Ohjeet -->
+    <div class="modal fade" id="ohjeetModal" tabindex="-1" role="dialog" aria-labelledby="ohjeetModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="drinkkiModalLabel">Ohjeet</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img id="ohjeetImg" src="extra/ohjeet_1.png" style="width:auto; max-width: 100%; max-height: 70vh;"
+                        onclick='nextOhje()' alt="Säännöt">
+                    </img>
+
+                </div>
+                <div class="modal-footer"></div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Drinkkiopas -->
+    <div class="modal fade" id="drinkkiModal" tabindex="-1" role="dialog" aria-labelledby="drinkkiModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 1280px;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="drinkkiModalLabel">Drinkkiopas</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img id="drinkkiImg" style="width:100%; " src="extra/drinkkiopas.jpg" alt="Säännöt">
+                    </img>
+
+                </div>
+                <div class="modal-footer"></div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- About -->
+    <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="aboutModalLabel">About</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Idea, kortit, sun muut alun perin langasta: <br><a
+                        href="https://ylilauta.org/arkisto/59263741">https://ylilauta.org/arkisto/59263741</a>
+                    <br><br>
+                    Ilmeisesti muutamia kortteja on kadonnut alkuperäisestä langasta bittiavaruuteen, ja näistä pari
+                    jouduttu korvaamaan peliin (paskalla croppauksella ja laadulla) tulostuslätkistä.
+                    <br><br>
+                    Lisäksi rakenneltu itse 'salainen'-kortteja edeltävä "varoitus", sekä pelin alussa olevat nettipeliä
+                    koskevat ohjeet.
+                </div>
+                <div class="modal-footer">-pirssi, 2021</div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- <div class="container-fluid py-5 border-top">
+        <div class="row">
+            <div class="col-md-4">
+
+                <p>(c) 2017-2018</p>
+            </div>
+            <div class="col-md-4">
+                <h3>Toimipaikat</h3>
+                <p>Opistotie</p>
+                <p>Technopolis</p>
+                <p>Iisalmi</p>
+                <p>Varkaus</p>
+            </div>
+            <div class="col-md-4">
+                <h3>Tietoja</h3>
+                <p>Yhteystiedot</p>
+                <p>GDPR</p>
+                <p>Ota yhteyttä</p>
+            </div>
+        </div>
+    </div> -->
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
