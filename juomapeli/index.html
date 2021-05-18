@@ -100,14 +100,14 @@
                 document.getElementById('counter').innerHTML = (playedCards.length + '/' + deck.length); //update the counter
                 currentCard++; //current card number updated (increased)
                 warned = false;
-                console.log(currentCard);
+                //console.log(currentCard);
             }
 
         } else if (currentCard == -2) { //if the current card is the "starting card" (-2)
             kortti.src = "extra/ohjeet_0.png"; //show a blank card before showing cards from the deck
             // document.getElementById('counter').style = "visibility: hidden";
             currentCard++; //current card number updated (increased)
-            console.log(currentCard);
+            // console.log(currentCard);
         } else if (currentCard > deck.length) {
             kortti.src = "extra/tausta_light.png"; //show a blank card before showing cards from the deck
             document.getElementById('counter').style = "visibility: hidden";
@@ -123,13 +123,13 @@
             // document.getElementById('counter').style = "visibility: visible";
             document.getElementById('counter').innerHTML = (playedCards.length + '/' + deck.length); // update the counter
             currentCard--; //current card number updated (decreased)
-            console.log(currentCard);
+            // console.log(currentCard);
         } else if (currentCard == 0 || currentCard == -1) { //if the previous card is "no card"
             kortti.src = "extra/tausta_light.png"; //show a blank card
             playedCards.pop() //remove the last played card from played cards
             document.getElementById('counter').style = "visibility: hidden"; //hide the counter
             currentCard = -1; //current card number set to -1 so the rules are not shown again
-            console.log(currentCard);
+            // console.log(currentCard);
         }
 
     }
@@ -179,10 +179,22 @@
 
         return cards;
     }
+    function preloadImages(count) {
+        var images = [];
+        for (var i = 0; i < count; i++) {
+            images[i] = new Image();
+            images[i].src = 'kortit/' + i + '.jpg';
+        }
+        //console.log(images);
+    }
+
+    function onLoad() {
+        preloadImages(cardCount);
+    }
 
     document.onkeydown = function (e) { //keydown event listener
         e = e || window.event;
-        console.log(e.keyCode);
+        // console.log(e.keyCode);
         if (e.keyCode == 39) { //right arrow key
             nextCard();
         }
@@ -192,7 +204,7 @@
     }
 </script>
 
-<body>
+<body onload="onLoad()">
 
     <nav class="navbar navbar-expand-lg navbar-light">
 
