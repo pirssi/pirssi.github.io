@@ -35,10 +35,6 @@
         var styleArray = [4];
         var dotArray = [0];
 
-        function test() {
-            console.log(testing);
-        }
-
         function printInput() {
             console.log(document.getElementById("testInput").value);
         }
@@ -146,7 +142,7 @@
     </script>
 </head>
 
-<body style="background-color: black;" onload="test()">
+<body style="background-color: #29263F;">
     <div id="grid">
         <div>
             <h1 style="
@@ -189,7 +185,7 @@
         </div>
         <div id="crosshair" style="visibility: hidden; padding: 50px;">
             <input type="text" id="crosshairCommand" size=180
-                style="background-color: black; color: white; border: none;" readonly>
+                style="background-color: #29263F; color: white; border: none;" readonly>
             <button onclick="copyToClipboard()">copy to clipboard</button>
         </div>
 

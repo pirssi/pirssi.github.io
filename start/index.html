@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>start page</title>
+  <script>
+    function asd() {
+      var d = new Date();
+      var h = d.getHours();
+      if (h < 22 && h > 8) {
+        document.body.style.backgroundImage = "url('background_day.png')";
+        // document.getElementById('container').style.backgroundColor = "#232136";
+        // //document.getElementById('container').style.border = "3px solid white";
+        // var links = document.links;
+        // for (i = 0; i < links.length; i++) {
+        //   document.links[i].style.color = "white";
+        // }
+
+
+      }
+      else {
+        document.body.style.backgroundImage = "url('background_night.png')";
+      }
+      startTime();
+    }
+    function startTime() {
+      var d = new Date();
+      var h = d.getHours();
+      var m = d.getMinutes();
+      var s = d.getSeconds();
+      h = checkTime(h);
+      m = checkTime(m);
+      s = checkTime(s);
+      document.getElementById('clock').innerHTML =
+        h + ":" + m + ":" + s;
+
+      var t = setTimeout(startTime, 500);
+    }
+    function checkTime(i) {
+      if (i < 10) { i = "0" + i };  // add zero in front of numbers < 10
+      return i;
+    }
+  </script>
+  <style type="text/css" id="less:startpages-Startpage_kopri-nb-style-style">
+    @import "https://startpages.github.io/startpages/Startpage_kopri-nb/style/normalize.css";
+
+
+    @font-face {
+      font-family: 'AdobeTextPro-Regular';
+      font-style: normal;
+      font-weight: normal;
+
+      src: local('AdobeTextPro-Regular'), url('AdobeTextPro-Regular.woff') format('woff');
+
+    }
+
+    @font-face {
+      font-family: 'AdobeTextPro-Semibold';
+      font-style: normal;
+      font-weight: normal;
+      src: local('AdobeTextPro-Semibold'), url('AdobeTextPro-Semibold.woff') format('woff');
+    }
+
+    * {
+      font-family: 'AdobeTextPro-Regular';
+      font-weight: normal;
+      font-size: 30px;
+      color: black;
+
+    }
+
+    body {
+
+      background: #232136;
+
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: bottom;
+      background-size: cover;
+    }
+
+    a {
+      color: black;
+      text-decoration: none;
+      display: block;
+      float: none;
+      line-height: 1.1;
+    }
+
+    ul {
+      list-style: none;
+      padding: 50px 50px 50px 50px;
+      margin: 10px;
+      width: max-content;
+      float: left;
+    }
+
+    li a:hover {
+      color: #E6503D;
+      -webkit-transition: all 0.2s ease-out;
+      -moz-transition: all 0.2s ease-out;
+      -o-transition: all 0.2s ease-out;
+      transition: all 0.2s ease-out;
+    }
+
+    #container {
+      background-color: #F0E1C7;
+      padding: 70px 70px 0px 70px;
+      border: 3px solid black;
+      display: inline-block;
+
+      /*border: 2px solid #343059;*/
+    }
+
+    #clock {
+      text-align: center;
+      font-size: 72px;
+    }
+
+    #left {
+      float: left;
+      width: 33%;
+    }
+
+    #center {
+      float: left;
+      width: 33%;
+    }
+
+    #right {
+      float: right;
+      width: 33%;
+    }
+
+
+
+    /* #links {
+      margin: 50px 50px 50px 50px;
+      font-size: 12px;
+      height: 150px;
+    } */
+  </style>
+</head>
+
+<body onload="asd()">
+  <div id="container" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"
+    class="container">
+    <a id="clock">asd</a>
+
+    <div id="links">
+      <div id="left">
+        <ul class="one">
+
+          <li><a href="https://twitter.com">Twitter</a></li>
+          <li><a href="https://www.youtube.com/">Youtube</a></li>
+          <li><a href="https://www.twitch.tv/directory/all">Twitch</a></li>
+          <li><a href="https://www.netflix.com/">Netflix</a></li>
+          <li><a href="https://fi.hbonordic.com/">HBO</a></li>
+          <li><a href="https://www.disneyplus.com/home">Disney+</a></li>
+
+        </ul>
+      </div>
+
+      <div id="center">
+        <ul class="two">
+
+
+          <li><a href="https://www.reddit.com/r/GlobalOffensive/">r/csgo</a></li>
+          <li><a href="https://www.reddit.com/r/EscapefromTarkov/">r/eft</a></li>
+          <li><a href="https://www.reddit.com/r/movies/">r/movies</a></li>
+
+          <li><a href="https://boards.4chan.org/wg/">/wg/</a></li>
+          <li><a href="https://boards.4chan.org/fa/">/fa/</a></li>
+          <li><a href="https://boards.4chan.org/g/">/g/</a></li>
+          <li><a href="https://news.ycombinator.com/">hn</a></li>
+
+
+        </ul>
+      </div>
+      <div id="right">
+        <ul class="three">
+
+          <li><a href="https://mail.google.com/">Gmail</a></li>
+          <li><a href="https://moodle.uef.fi/">UEF Moodle</a></li>
+          <li><a href="https://digicampus.fi/my/">DigiCampus</a></li>
+          <li><a href="https://weboodi.uef.fi/weboodi/etusivu.html">WebOodi</a></li>
+          <li><a href="https://lukari.uef.fi/">Lukari</a></li>
+          <li><a href="https://outlook.office.com/owa/">Outlook</a></li>
+
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+</body>
+
+</html>
