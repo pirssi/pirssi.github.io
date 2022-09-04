@@ -13,11 +13,8 @@ let gapMax = 0;
 let thicknessMin = 0;
 let thicknessMax = 0;
 
-//! todo: validation
-
 function generate() {
   document.getElementById("cmdBox").style.visibility = "hidden";
-  //   console.log("jepjep");
   if (validateForm()) {
     readInputFormAndGenerate();
     document.getElementById("cmd").value =
@@ -79,37 +76,31 @@ function validateForm() {
     document.getElementById("labelColor").style.color = "var(--color-text)";
     document.getElementById("labelColor").innerText = "color:";
   }
-  if (pass) {
-  }
   return pass;
 }
 function readInputFormAndGenerate() {
+  //get the input values
   sizeMin = document.getElementById("sizeMin").value;
   sizeMax = document.getElementById("sizeMax").value;
   gapMin = document.getElementById("gapMin").value;
   gapMax = document.getElementById("gapMax").value;
   thicknessMin = document.getElementById("thicknessMin").value;
   thicknessMax = document.getElementById("thicknessMax").value;
-  //   console.log(sizeMin + " " + thicknessMax);
+  //randomize numeric values (size, gap, thickness)
   size = randomize(parseFloat(sizeMin), parseFloat(sizeMax), 1);
   gap = randomize(parseFloat(gapMin), parseFloat(gapMax), 1);
   thickness = randomize(parseFloat(thicknessMin), parseFloat(thicknessMax), 0.5);
-
   // color
   let colorsChecked = document.querySelectorAll("input[name=color]:checked");
   let colors = [];
   for (const c of colorsChecked) {
     colors.push(c.value);
   }
-  console.log(colors);
   if (colors.length >= 1) {
-    console.log("color hep");
     color = colors[randomize(0, colors.length - 1, 1)];
   }
-
   // outline
   let outlinesChecked = document.querySelectorAll("input[name=outline]:checked");
-
   if (outlinesChecked.length > 0) {
     //if outline(s) selected
     outline = randomize(0, 1, 1); //randomize whether its on
@@ -119,11 +110,10 @@ function readInputFormAndGenerate() {
       for (const o of outlinesChecked) {
         outlines.push(o.value);
       }
-      console.log(outlines);
       outlinethickness = outlines[randomize(0, outlines.length - 1, 1)];
     }
   } else outline = 0;
-
+  //randomize "optional" options
   if (document.getElementById("style").checked) {
     style = randomize(4, 5, 1);
   }
