@@ -2,191 +2,76 @@
 <html lang="en">
 
 <head>
-    <title>crosshair generator</title>
+    <title>crosshair randomizer</title>
     <meta charset="UTF-8">
-    <style>
-        #grid {
-            display: -ms-grid;
-            display: grid;
-            -ms-grid-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-            grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-            text-align: center;
-            height: 80vh;
-            width: 100%;
-            margin-block: 10vh;
-        }
-    </style>
-    <script>
-
-        var testing = "page loaded"
-
-        var sizeMin;
-        var sizeMax;
-        var gapMin;
-        var gapMax;
-        var thicknessMin;
-        var thicknessMax;
-        var sizeArray = [];
-        var gapArray = [];
-        var thicknessArray = [];
-        var colorArray = [1];
-        var outlineArray = [0];
-        var outlineThicknessArray = [0];
-        var styleArray = [4];
-        var dotArray = [0];
-
-        function printInput() {
-            console.log(document.getElementById("testInput").value);
-        }
-        function generate() {
-            getInput();
-            document.getElementById("crosshair").style.visibility = "visible";
-            document.getElementById("crosshairCommand").value = "cl_crosshairstyle " + styleArray[Math.floor(Math.random() * styleArray.length)]
-                + "; cl_crosshairsize " + sizeArray[Math.floor(Math.random() * sizeArray.length)]
-                + "; cl_crosshairgap " + gapArray[Math.floor(Math.random() * gapArray.length)]
-                + "; cl_crosshairthickness " + thicknessArray[Math.floor(Math.random() * thicknessArray.length)]
-                + "; cl_crosshaircolor " + colorArray[Math.floor(Math.random() * colorArray.length)]
-                + "; cl_crosshair_drawoutline " + outlineArray[Math.floor(Math.random() * outlineArray.length)]
-                + "; cl_crosshair_outlinethickness " + outlineThicknessArray[Math.floor(Math.random() * outlineThicknessArray.length)]
-                + "; cl_crosshairdot " + dotArray[Math.floor(Math.random() * dotArray.length)];
-
-        }
-        function getInput() {
-            sizeMin = +document.getElementById("sizeMin").value;
-            sizeMax = +document.getElementById("sizeMax").value;
-            gapMin = +document.getElementById("gapMin").value;
-            gapMax = +document.getElementById("gapMax").value;
-            thicknessMin = +document.getElementById("thicknessMin").value;
-            thicknessMax = +document.getElementById("thicknessMax").value;
-
-
-
-
-
-            var i;
-            //SIZE
-            for (i = sizeMin; i <= sizeMax; i += 0.5) {
-                sizeArray.push(i);
-            }
-            //GAP
-            for (i = gapMin; i <= gapMax; i++) {
-                gapArray.push(i);
-            }
-            //THICKNESS
-            for (i = thicknessMin; i <= thicknessMax; i += 0.5) {
-                thicknessArray.push(i);
-            }
-            //COLOR
-            //if no colors checked, default to green
-            if (!document.getElementById("green").checked && (document.getElementById("yellow").checked || document.getElementById("blue").checked || document.getElementById("cyan").checked || document.getElementById("red").checked)) {
-                colorArray = [];
-            }
-            if (document.getElementById("yellow").checked)
-                colorArray.push(2);
-            if (document.getElementById("blue").checked)
-                colorArray.push(3);
-            if (document.getElementById("cyan").checked)
-                colorArray.push(4);
-            if (document.getElementById("red").checked)
-                colorArray.push(0);
-            //OUTLINE
-            if (document.getElementById("halfoutline").checked || document.getElementById("fulloutline").checked) {
-                outlineArray.push(1);
-                if (document.getElementById("halfoutline").checked)
-                    outlineThicknessArray.push(0.5);
-                if (document.getElementById("fulloutline").checked)
-                    outlineThicknessArray.push(1);
-            }
-            //STYLE
-            if (document.getElementById("style").checked) {
-                styleArray.push(5);
-                //push extra 4's to make style 5 less likely (10% chance)
-                styleArray.push(4);
-                styleArray.push(4);
-                styleArray.push(4);
-                styleArray.push(4);
-                styleArray.push(4);
-                styleArray.push(4);
-                styleArray.push(4);
-                styleArray.push(4);
-                styleArray.push(4);
-            }
-            //DOT
-            if (document.getElementById("dot").checked) {
-                dotArray.push(1);
-                //push extra 0's to make dot less likely (10% chance)
-                dotArray.push(0);
-                dotArray.push(0);
-                dotArray.push(0);
-                dotArray.push(0);
-                dotArray.push(0);
-                dotArray.push(0);
-                dotArray.push(0);
-                dotArray.push(0);
-                dotArray.push(0);
-            }
-
-
-        }
-        function copyToClipboard() {
-            /* Get the text field */
-            var copyText = document.getElementById("crosshairCommand");
-
-            /* Select the text field */
-            copyText.select();
-            copyText.setSelectionRange(0, 99999); /*For mobile devices*/
-
-            /* Copy the text inside the text field */
-            document.execCommand("copy");
-        }
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../main.css">
+    <link rel="stylesheet" href="xhair.css">
+    <script type="text/javascript" src="../main.js"></script>
+    <script type="text/javascript" src="xhair.js"></script>
 </head>
 
-<body style="background-color: #29263F;">
-    <div id="grid">
-        <div>
-            <h1 style="
-            font-family: monospace;
-            color: white;
-            text-decoration: none;
-            font-size: 200%;
-            letter-spacing: 10px;
-            padding: 20px;
-            line-height: 500%;
-          ">
-                crosshair generator
-            </h1>
-        </div>
-        <div style=" font-family: monospace; color: white; text-decoration: none; line-height: 300%;">
-            <form action="javascript:void(0);" onsubmit="generate()">
-                size: min <input type=" text" id="sizeMin" size=1 value=1 required> max <input type="text" id="sizeMax"
-                    size=1 value=5 required><br>
+<body>
+    <div class="top-buttons">
+        <button class="colortoggler" title="toggle dark mode">☀</button>
+    </div>
+    <div>
+        <div class="center-div" style="width: fit-content; max-width: min-content">
+            <h1>cs:go crosshair randomizer</h1>
+            <p>a simple tool to generate a random crosshair command for cs:go with selected values<br>
+            </p>
+            <div id="inputform">
+                <form action="javascript:void(0);" onsubmit="generate()">
+                    <div>
+                        <span id="labelSize">size:</span>
+                        min <input type="number" id="sizeMin" size=1 value=1>
+                        max <input type="number" id="sizeMax" size=1 value=3>
+                    </div>
+                    <div>
+                        <span id="labelGap">gap:</span>
+                        min <input type="number" id="gapMin" size=1 value=-4>
+                        max <input type="number" id="gapMax" size=1 value=0>
+                    </div>
+                    <div>
+                        <span id="labelThickness">thickness:</span>
+                        min <input type="number" id="thicknessMin" size=1 value=0 step="0.5">
+                        max <input type="number" id="thicknessMax" size=1 value=1 step="0.5">
+                    </div>
+                    <div>
+                        <span id="labelColor">color:</span>
+                        <input type="checkbox" id="green" name="color" value=1 checked>
+                        <span style="color: var(--color-green); padding-right: 10px;">green </span>
+                        <input type="checkbox" id="yellow" name="color" value=2 checked>
+                        <span style="color:var(--color-yellow); padding-right: 10px;">yellow</span>
 
-                gap: min <input type=" text" id="gapMin" size=1 value=-4 required> max <input type="text" id="gapMax"
-                    size=1 value=0 required><br>
+                        <input type="checkbox" id="cyan" name="color" value=4 checked>
+                        <span style="color:var(--color-cyan); padding-right: 10px;">cyan</span>
+                        <input type="checkbox" id="blue" name="color" value=3>
+                        <span style="color:var(--color-blue); padding-right: 10px;">blue</span>
+                        <input type="checkbox" id="red" name="color" value=0>
+                        <span style="color:var(--color-red)">red</span>
+                    </div>
+                    <div>
+                        <span id="labelOutline">outline:</span>
+                        full (1) <input type="checkbox" id="fulloutline" name="outline" value=1 checked>
+                        half (0.5) <input type="checkbox" id="halfoutline" name="outline" value=0.5>
+                    </div>
+                    <div>
+                        <span id="labelDynamic">dynamic (style 5):</span>: <input type="checkbox" id="style">
+                    </div>
+                    <div>
+                        <span id="labelDot">dot:</span>: <input type="checkbox" id="dot">
+                    </div>
+                    <div>
+                        <input type="submit">
+                    </div>
+                </form>
+            </div>
+            <div id="cmdBox">
+                <textarea id="cmd" cols="50" rows="4" readonly></textarea><br>
+                <button id="copybtn" onclick="copyToClipboard()">copy</button>
+            </div>
 
-                thickness: min <input type=" text" id="thicknessMin" size=1 value=0 required> max <input type="text"
-                    id="thicknessMax" size=1 value=1.5 required><br>
-
-                colors:
-                <span style="color:lime">green</span><input type="checkbox" id="green" value=1 checked>
-                <span style="color:yellow">yellow</span><input type="checkbox" id="yellow" value=2 checked>
-                <span style="color:blue">blue</span><input type="checkbox" id="blue" value=3 checked>
-                <span style="color:cyan">cyan</span><input type="checkbox" id="cyan" value=4 checked>
-                <span style="color:red">red</span><input type="checkbox" id="red" value=0 checked>
-                <br>
-                outline: half (0.5)<input type="checkbox" id="halfoutline"> full (1)<input type="checkbox"
-                    id="fulloutline"><br>
-                dynamic (style 5)? <input type="checkbox" id="style"><br>
-                dot? <input type="checkbox" id="dot"><br>
-
-                <input type="submit" value="generate">
-            </form>
-        </div>
-        <div id="crosshair" style="visibility: hidden; padding: 50px;">
-            <input type="text" id="crosshairCommand" size=180
-                style="background-color: #29263F; color: white; border: none;" readonly>
-            <button onclick="copyToClipboard()">copy to clipboard</button>
         </div>
 
     </div>

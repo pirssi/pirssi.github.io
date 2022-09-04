@@ -2,43 +2,51 @@
 <html lang="en">
 
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="pirssi">
+    <meta name="description"
+        content="simple website for hosting links to various sites as well as small projects, hosted on github pages">
+
     <title>pirssi</title>
+    <link rel="stylesheet" href="main.css">
+    <script type="text/javascript" src="main.js"></script>
     <style>
-        .centered {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            -moz-transform: translateX(-50%) translateY(-50%);
-            -webkit-transform: translateX(-50%) translateY(-50%);
-            transform: translateX(-50%) translateY(-50%);
-        }
 
-        h1,
-        p,
-        a,
-        div {
-            text-align: center;
-            color: white;
-        }
-
-        a:link {
-            text-decoration: none;
-        }
     </style>
 </head>
 
-<body style="background-color: #29263F;">
-
-    <div class="centered">
-        <h2>pirssi</h1>
-            <p>(wip)</p>
-            <div>
-                <br><br>
-                <a href="/linkit">linkit</a><br><br>
-                <a href="/juomapeli">ylilauta-juomapeli</a><br><br>
-                <a href="/golf">super amazing minigolf</a><br><br>
-                <a href="/xhair">crosshair generator</a><br><br>
-            </div>
+<body>
+    <div class="top-buttons">
+        <button class="colortoggler" title="toggle dark mode">☀</button>
+    </div>
+    <div class="center-div center-text">
+        <h1 id="pirssi" class="comment">&lt;!--pirssi--></h1>
+        <!-- <br> -->
+        <div id="contact" class="links">
+            <p class="atpirssi">@pirssi</p>
+            <!-- <br> -->
+            <a id="twitter" href="https://twitter.com/pirssi">twitter</a>
+            <br>
+            <a id="steam" href="https://steamcommunity.com/id/pirssi/">steam</a>
+            <br>
+            <a id="github" href="https://github.com/pirssi/">github</a>
+            <br>
+            <a id="telegram" href="https://t.me/pirssi">telegram</a>
+            <br>
+        </div>
+        <br>
+        <div id="projects" class="links">
+            <p class="comment2">// old stuff & projects:</p>
+            <a href="/start">start page</a>
+            <br>
+            <a href="/juomapeli">ylilauta-juomapeli</a>
+            <br>
+            <a href="/xhair">cs:go crosshair randomizer</a>
+            <br>
+            <a href="/golf"> super amazing minigolf <span style="color: var(--color-text)">(group project)</span></a>
+            <br>
+        </div>
 
     </div>
 </body>

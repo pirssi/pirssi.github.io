@@ -1,0 +1,44 @@
+:root {
+  --color-green: rgb(2, 174, 2);
+  --color-yellow: rgb(173, 147, 0);
+  --color-blue: rgb(0, 98, 154);
+  --color-cyan: rgb(0, 161, 161);
+  --color-red: rgb(163, 0, 0);
+}
+.dark-mode {
+  --color-green: lime;
+  --color-yellow: yellow;
+  --color-blue: rgb(0, 162, 255);
+  --color-cyan: cyan;
+  --color-red: red;
+}
+body {
+  font-size: large;
+}
+h1 {
+  font-size: 48px;
+  color: var(--color-link-hover);
+}
+input,
+textarea,
+#copybtn {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+  font-size: large;
+  border: 1px solid;
+}
+#inputform {
+  line-height: 2.7;
+}
+#cmd {
+  margin: 7px;
+  size: 1000px;
+  border: none;
+}
+#cmdBox {
+  visibility: hidden;
+}
+input[type="number"] {
+  width: 50px;
+}
