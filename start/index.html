@@ -1,191 +1,67 @@
-<!-- 
-minimalist start page by pirssi
-with clock, hotlinks, a custom font and a background based on system color scheme 
-originally (loosely) based on https://startpages.github.io/startpages/Startpage_kopri-nb/ 
--->
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta charset="utf-8">
-  <title>///////////////////////////////////////////</title>
-  <script>
-    function initialize() {
-      colorScheme();
-      updateClock();
-    }
-    function colorScheme() {
-      // change the background based on user system color scheme
-      var bStyle = document.body.style;
-      var lightbg = "url('background_day.jpg')";
-      var darkbg = "url('background_night.png')";
+  <title>////////////////////////////////</title>
 
-      // if (matchMedia) { // if media queries are supported
-      const colorschemeMQ = matchMedia("(prefers-color-scheme: dark)");
-      if (colorschemeMQ.matches) { // check the user system color scheme (matches dark)
-        // dark theme
-        bStyle.backgroundImage = darkbg;
-      } else {
-        // light theme
-        bStyle.backgroundImage = lightbg;
-      }
-      colorschemeMQ.addListener(e => { // handle color scheme change events
-        if (e.matches) {
-          bStyle.backgroundImage = darkbg;
-        } else {
-          bStyle.backgroundImage = lightbg;
-        }
-      });
-      // } else {
-      //   // revert to user system time based if using an ancient browser
-      //   var d = new Date();
-      //   var h = d.getHours();
-      //   (h < 22 && h > 8) ? bStyle.backgroundImage = lightbg : bStyle.backgroundImage = dark;
-      // }
-    }
-    function updateClock() {
-      var d = new Date();
-      var h = d.getHours();
-      var m = d.getMinutes();
-      var s = d.getSeconds();
-      h = leadingZeros(h);
-      m = leadingZeros(m);
-      s = leadingZeros(s);
+  <script src="scripts/clock.js" defer></script>
+  <script src="scripts/buttons.js" defer></script>
+  <link rel="stylesheet" href="styles/start.css">
 
-      document.getElementById('clock').innerHTML = h + ":" + m + ":" + s;
+  <link rel="preload" as="image" href="images/background-light.jpg">
+  <link rel="preload" as="image" href="images/background-dark.jpg">
 
-      var t = setTimeout(updateClock, 500);
-    }
-    function leadingZeros(i) {
-      // add zero in front of numbers < 10
-      return (i < 10) ? i = "0" + i : i;
-    }
-  </script>
-  <style type="text/css">
-    @font-face {
-      font-family: 'AdobeTextPro-Regular';
-      font-style: normal;
-      font-weight: normal;
-      src: local('AdobeTextPro-Regular'), url('AdobeTextPro-Regular.woff') format('woff');
-    }
-
-    * {
-      font-family: 'AdobeTextPro-Regular';
-      font-size: 30px;
-      color: black;
-    }
-
-    body {
-      background: #232136;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      background-position: bottom;
-      background-size: cover;
-    }
-
-    a {
-      text-decoration: none;
-      display: block;
-      float: none;
-      line-height: 1.1;
-    }
-
-    ul {
-      list-style: none;
-      padding: 50px 50px 50px 50px;
-      margin: 10px;
-      width: max-content;
-      float: left;
-    }
-
-    li a:hover {
-      color: #E6503D;
-      -webkit-transition: all 0.2s ease-out;
-      -moz-transition: all 0.2s ease-out;
-      -o-transition: all 0.2s ease-out;
-      transition: all 0.2s ease-out;
-    }
-
-    #container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #F0E1C7;
-      padding: 70px 70px 0px 70px;
-      border: 3px solid black;
-      display: inline-block;
-      min-width: max-content;
-      /*border: 2px solid #343059;*/
-    }
-
-    #clock {
-      text-align: center;
-      font-size: 72px;
-    }
-
-    #left {
-      float: left;
-      width: 33%;
-    }
-
-    #center {
-      float: left;
-      width: 33%;
-    }
-
-    #right {
-      float: right;
-      width: 33%;
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet">
 </head>
 
-<body onload="initialize()" id="main">
-  <div id="container" class="container">
-    <a id="clock">10:08:32</a>
+<body>
 
-    <div id="links">
-      <div id="left">
-        <ul class="one">
-          <li><a href="https://www.youtube.com/">Youtube</a></li>
-          <li><a href="https://www.twitch.tv/directory/all">Twitch</a></li>
-          <li><a href="https://www.netflix.com/">Netflix</a></li>
-          <li><a href="https://play.hbomax.com/page/urn:hbo:page:home">HBO</a></li>
-          <li><a href="https://www.disneyplus.com/home">Disney+</a></li>
-          <li><a href="https://www.primevideo.com">Prime Video</a></li>
+  <button id="themeToggle" class="theme-toggle" title="Toggle dark theme">◐</button>
+  <button id="styleToggle" class="style-toggle" title="Toggle transparency">▨</button>
+
+  <div id="box" class="box">
+    <div id="clockcontainer">
+      <a id="clock" class="clock">10:08:32</a>
+    </div>
+
+    <div id="link-container">
+      <div class="link-column">
+        <ul>
+          <li><a href="https://www.youtube.com/">YouTube</a></li>
+          <li><a href="https://www.twitch.tv/">Twitch</a></li>
+          <li><a href="https://www.primevideo.com/">Prime Video</a></li>
+          <li><a href="https://www.disneyplus.com/">Disney+</a></li>
+          <li><a href="https://play.max.com/">Max</a></li>
         </ul>
       </div>
 
-      <div id="center">
-        <ul class="two">
-          <li><a href="https://twitter.com">Twitter</a></li>
-          <li><a href="https://www.reddit.com/r/GlobalOffensive/">r/csgo</a></li>
-          <!-- <li><a href="https://www.reddit.com/r/EscapeFromTarkov/">r/eft</a></li> -->
+      <div class="link-column">
+        <ul>
           <li><a href="https://www.reddit.com/r/2007scape/">r/osrs</a></li>
+          <li><a href="https://www.reddit.com/r/GlobalOffensive/">r/csgo</a></li>
           <li><a href="https://www.reddit.com/r/movies/">r/movies</a></li>
-          <!-- <li><a href="https://boards.4chan.org/wg/">/wg/</a></li> -->
-          <!-- <li><a href="https://boards.4chan.org/fa/">/fa/</a></li> -->
           <li><a href="https://boards.4chan.org/g/">/g/</a></li>
           <li><a href="https://news.ycombinator.com/">hn</a></li>
+          <li><a href="https://x.com/home/">x</a></li>
         </ul>
       </div>
-      <div id="right">
-        <ul class="three">
-          <li><a href="https://mail.google.com/">Gmail</a></li>
-          <li><a href="https://outlook.office.com/owa/">Outlook</a></li>
-          <li><a href="https://lukkarit.uef.fi/#/schedule">Lukkari</a></li>
-          <li><a href="https://moodle.uef.fi/">UEF Moodle</a></li>
-          <li><a href="https://elearn.uef.fi/my/">UEF eLearn</a></li>
-          <!-- <li><a href="https://digicampus.fi/my/">DigiCampus</a></li> -->
-          <li><a href="https://peppi.uef.fi/">Peppi</a></li>
 
+      <div class="link-column">
+        <ul>
+          <li><a href="https://mail.google.com/">Gmail</a></li>
+          <li><a href="https://outlook.office.com/">Outlook</a></li>
+          <li><a href="https://keep.google.com/">Google Keep</a></li>
+          <li><a href="http://192.168.1.200/admin/">pi-hole</a></li>
+          <li><a href="http://192.168.1.200:8123/">hass</a></li>
         </ul>
       </div>
     </div>
   </div>
+
 </body>
 
 </html>

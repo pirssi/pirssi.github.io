@@ -1,0 +1,149 @@
+/* import Font Definitions */
+@import url("sentient.css");
+
+/* variables */
+:root {
+  /* background images */
+  --bg-image-light: url("../images/background-light.jpg");
+  --bg-image-dark: url("../images/background-dark.jpg");
+  --bg-image: var(--bg-image-light);
+
+  /* default colors */
+  --color-text: hsl(0, 0%, 100%);
+  --color-bg-body: 0, 0%, 13%;
+  --color-toggle-button: hsl(0, 0%, 100%);
+
+  /* typography */
+  --font-family: "Sentient-Regular", serif;
+  --font-size-base: 30px;
+  --font-family-clock: "Sentient-Medium", serif;
+  --font-size-clock: 75px;
+  --line-height-base: 1.2;
+
+  /* layout */
+  --border-box-color: hsl(0, 0%, 0%);
+  --border-radius-box: none;
+  --border-width-box: 4px;
+  --border-box: var(--border-width-box) solid var(--border-box-color);
+  --box-shadow-box: 10px 10px 30px 15px hsla(0, 0%, 0%, 0.5);
+  --padding-box: 70px 0 0;
+  --padding-link: 70px;
+
+  /* hovered links */
+  --color-text-hover: hsl(7, 77%, 57%);
+  --transition-hover: all 0.2s ease-out;
+}
+
+/* dark mode (redundant?) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-image: var(--bg-image-dark);
+    --color-text: hsl(0, 0%, 0%);
+    --color-bg-box: hsl(18, 52%, 83%);
+    --color-toggle-button: hsla(18, 52%, 83%, 0.5);
+  }
+}
+/* dark */
+:root[page-theme="dark"][box-style="transparent"] {
+  --bg-image: var(--bg-image-dark);
+  --color-text: hsl(18, 55%, 88%);
+  --color-bg-box: hsla(0, 0%, 0%, 0.5);
+  --color-toggle-button: hsla(38, 58%, 86%, 0.5);
+}
+:root[page-theme="dark"][box-style="opaque"] {
+  --bg-image: var(--bg-image-dark);
+  --color-text: hsl(0, 0%, 13%);
+  --color-bg-box: hsl(18, 55%, 88%);
+  --color-toggle-button: hsla(38, 58%, 86%, 0.5);
+}
+/* light */
+:root[page-theme="light"][box-style="transparent"] {
+  --bg-image: var(--bg-image-light);
+  --color-text: hsl(0, 0%, 0%);
+  --color-bg-box: hsla(50, 58%, 95%, 0.33);
+  --color-toggle-button: hsla(0, 0%, 0%, 0.5);
+}
+:root[page-theme="light"][box-style="opaque"] {
+  --bg-image: var(--bg-image-light);
+  --color-text: hsl(0, 0%, 13%);
+  --color-bg-box: hsl(38, 58%, 86%);
+  --color-toggle-button: hsla(0, 0%, 0%, 0.5);
+}
+
+body {
+  font: var(--font-size-base) / var(--line-height-base) var(--font-family);
+  color: var(--color-text);
+  background-color: var(--color-bg-body);
+  background-image: var(--bg-image);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: bottom;
+  background-size: cover;
+  transition: color 0.5s ease, background-image 0.15s linear;
+}
+
+/* dark mode toggle button */
+.theme-toggle,
+.style-toggle {
+  position: fixed;
+  font-size: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: var(--color-toggle-button);
+  transition: color 0.5s ease;
+}
+.theme-toggle {
+  top: 10px;
+  right: 10px;
+}
+.style-toggle {
+  top: 10px;
+  right: 38px;
+}
+
+/* layout */
+.box {
+  background-color: var(--color-bg-box);
+  backdrop-filter: blur(15px);
+  border: var(--border-box);
+  border-radius: var(--border-radius-box);
+  box-shadow: var(--box-shadow-box);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: var(--padding-box);
+  min-width: max-content;
+  transition: background-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.clock {
+  display: block;
+  font-family: var(--font-family-clock);
+  font-size: var(--font-size-clock);
+  text-align: center;
+}
+
+.link-column {
+  /* width: 33%; */
+  float: left;
+}
+
+#link-container > div > ul {
+  list-style: none;
+  padding: var(--padding-link);
+  margin: 0;
+}
+
+#link-container > div > ul > li > a {
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.5s ease;
+}
+
+#link-container > div > ul > li > a:hover {
+  color: var(--color-text-hover);
+  transition: var(--transition-hover);
+}
